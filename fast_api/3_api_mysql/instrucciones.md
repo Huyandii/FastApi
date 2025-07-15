@@ -1,13 +1,15 @@
-<!-- api con MySQL -->
-1- Crear una bbdd MySQL llamada upgrade-shop: Y crear la siqguiente tabla
+# API con MYSQL.
 
-       products
-        id
-        title
-        price
-        quantify
-        status
+    1 - Crear un bbdd MySQL llama upgrade-shop: Y crear la siguiente tabla
+                products
+                    id
+                    title
+                    price
+                    quantity
+                    status
 
-2- "fastapi[standard]"
-    python-dotenv
-    
+    2 - "fastapi[standard]"
+        python-dotenv
+        mysql-connector-python
+
+    3 - pip list y creais el fichero requirements.txt
