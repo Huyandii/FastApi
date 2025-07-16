@@ -1,12 +1,24 @@
 from db.config import get_conexion
 from fastapi import HTTPException
-from models.user_model import User 
+from models.user_model import User, UserCreate
 import aiomysql
 import routes
 
+# LIST DE USUARIOS
+async def list_users():
+    try:
+        conn = await get_conexion()
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute('SELECT * FROM upgrade_shop.users')
+
+            data = await cursor.fetchall()
+            conn.close()
+            return data
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Error {str(e)}')
+# ------------------------------------------------------------------------
 
 
-# --------------------------
 
 async def get_one_user(id_user):
     try: 
@@ -14,7 +26,6 @@ async def get_one_user(id_user):
         async with conn.cursor(aiomysql.DictCursor) as cursor:
             await cursor.execute('SELECT * FROM upgrade_shop.users WHERE id=%s', (id_user,))
             data = await cursor.fetchone()
-        
         if data:
             return data
         else:
@@ -24,6 +35,11 @@ async def get_one_user(id_user):
         raise HTTPException(status_code=500, detail=f'error mysql {str(e)}')
     finally:
         conn.close()
+# ---------------------------------------------------------------------------------------
+
+
+
+
 
 #     id: int
     # name: str
@@ -60,6 +76,60 @@ async def update_user(id_user: int, user: User):
           raise HTTPException(status_code=500, detail=f'Error: {str(e)}')
       finally:
           conn.close()
+# ---------------------------------------------------------------------------------
 
 
 
+# BORRAR USUARIO POR ID
+async def delete_user(id_user):
+    user = await get_one_user(id_user)
+    if user:
+        try:
+            conn = await get_conexion()
+            async with conn.cursor(aiomysql.DictCursor) as cursor:
+                await cursor.execute('DELETE FROM upgrade_shop.users WHERE id=%s', (id_user,))
+                await conn.commit()
+                return {'msg': f'el usuario {id_user} ha sido borrado con exito', 'status': True}
+
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f'error {str(e)}')
+        finally:
+            conn.close()
+    else:
+        raise HTTPException(status_code=404, detail=f'No se ha encontrado el usuario {id_user} a borrar')
+# --------------------------------------------------------------------------
+
+
+
+
+
+# CREAR UN NUEVO USUARIO
+
+    # name: str
+    # surname: str
+    # age: int
+    # mail: EmailStr
+    # password: str
+    # rol: str
+
+async def create_user(new_user: UserCreate):
+    try:
+        conn = await get_conexion()
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute('INSERT INTO upgrade_shop.users (name, surname, age, mail, password, rol) VALUES(%s,%s,%s,%s,%s,%s)',(
+                new_user.name,
+                new_user.surname,
+                new_user.age,
+                new_user.mail,
+                new_user.password,
+                new_user.rol
+            ))
+        await conn.commit()
+        id_new = cursor.lastrowid
+        user = await get_one_user(id_new)
+        return {'msg': f'el usuario {new_user.name} fue creado'}
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Error {str(e)}')
+    finally: 
+        conn.close()

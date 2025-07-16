@@ -33,3 +33,6 @@
     - Routes GET users/id => optener los datos de un usuarios 
             - PUT users/id => actualizar un usuario
             - DEL users/id => borrar un usuario
+
+        - TODO: CASA HACER LA RUTA PARA OBTENER TODOS LOS USUARIOS => GETALL
+        - TODO: CASA HACER LA RUTA PARA REGISTRAR UN USUARIO. => REGISTER => POST

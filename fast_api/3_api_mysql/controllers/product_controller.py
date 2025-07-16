@@ -12,9 +12,8 @@ async def get_products_list():
        # obtener acceso a la base de datos de forma asincrona 
        conn = await get_conexion()
        async with conn.cursor(aiomysql.DictCursor) as cursor:
-        # consultamos datos
             await cursor.execute('SELECT * FROM upgrade_shop.products')
-        # obtener los resultados
+    
             data = await cursor.fetchall()
             conn.close()
             return data
