@@ -15,3 +15,4 @@ async def get_by_user(id_user: int):
 @router.put('/put/{id_user}', status_code=200)
 async def update_user(id_user: int, user: User):
     return await user_controller.update_user(id_user, user)
+
