@@ -7,3 +7,16 @@ class Product(BaseModel):
     price: float
     quantity: int
     status: int
+
+
+# Para poder pasarle un producto sin id 
+class ProductCreate(BaseModel):
+    title: str
+    price: float
+    quantity: int
+    status: int
+
+
+
+# --------------------------
+

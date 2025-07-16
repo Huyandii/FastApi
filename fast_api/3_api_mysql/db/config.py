@@ -12,4 +12,5 @@ async def get_conexion():
         user=os.getenv('MYSQL_USER'),
         password=os.getenv('MYSQL_PASSWORD'),
         db=os.getenv('MYSQL_DATABASE')
+        
     )

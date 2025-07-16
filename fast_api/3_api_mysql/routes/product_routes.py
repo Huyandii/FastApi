@@ -1,8 +1,12 @@
 from fastapi import APIRouter
-from controllers import product_controller
-from models import product_model
+from controllers import product_controller 
+from models.product_model import Product, ProductCreate
+
+
 
 router = APIRouter()
+
+
 
 
 # http://localhost:8000/products/
@@ -59,3 +63,28 @@ async def get_zero_stock():
 
 async def get_medio_stock():
     return await product_controller.get_by_medio_stock()
+
+
+
+#TODO: Borrar productos. DEL y para no borrar toda la base de datos debemos borrar por ID 
+
+@router.delete('/delete/{id_product}', status_code=200)
+async def delete_product(id_product: int):
+    return await product_controller.delete_product(id_product)
+
+
+
+
+# TODO: Crear un producto . POST mandaremos la informacion del producto que queremos registrar, ojo sin ID. 
+# la respuesta debera devolverme los datos completos del producto creado con id
+@router.post('/', status_code=201)
+async def create_product(product: ProductCreate):
+    return await product_controller.create_product(product)
+
+
+
+# TODO: Actualizacion  de un prodfucto: PUT/PAT. actualizamos la informacion de la base de datos, ojo aqui si tenemos id. La respuesta debera ser como minimo el producto actualizado
+
+@router.put('/{id_product}', status_code=200)
+async def update_product(id_product: int, product: Product):
+    return await product_controller.update_product(id_product, product)
