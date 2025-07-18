@@ -21,3 +21,9 @@ class UserCreate(BaseModel):
     mail: EmailStr
     password: str
     rol: str
+
+
+class UserLogin(BaseModel):
+    mail: EmailStr
+    password: str
+

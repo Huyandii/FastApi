@@ -5,7 +5,7 @@ import aiomysql
 import routes
 # -------------------------------------------------------------------------------------------------------
 
-# crear la funcion
+
 
 async def get_products_list():
     try:

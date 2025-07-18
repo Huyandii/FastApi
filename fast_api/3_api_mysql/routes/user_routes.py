@@ -7,7 +7,7 @@ router = APIRouter()
 
 
 # LISTA DE USUARIOS
-@router.get('/list/', status_code=200)
+@router.get('/', status_code=200)
 async def list_users():
     return await user_controller.list_users()
 
