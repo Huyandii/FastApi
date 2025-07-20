@@ -11,7 +11,7 @@ router = APIRouter()
 
 # http://localhost:8000/products/
 @router.get('/', status_code=200)
-async def get_all(user=Depends(get_current_user)):
+async def get_all():
     return await product_controller.get_products_list()# PASAR DEPENDENCIA 
 
 
@@ -69,8 +69,9 @@ async def get_medio_stock():
 #TODO: Borrar productos. DEL y para no borrar toda la base de datos debemos borrar por ID 
 
 @router.delete('/delete/{id_product}', status_code=200)
-async def delete_product(id_product: int):
+async def delete_product(id_product: int, usuario=Depends(get_current_user)):
     return await product_controller.delete_product(id_product)
+
 
 
 

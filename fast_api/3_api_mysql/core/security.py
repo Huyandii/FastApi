@@ -49,23 +49,28 @@ def create_token(data: dict):
     # hasearlo (codificarlo)
     return jwt.encode(datacopy_to_encode, SECRET_KEY, algorithm=ALGORITHM)
 
+# def decode_token(token: str):
+#     # lo decodigicamos para recibir los datoa de id, rol  del usuario logado, para ello usamos la libreria jwt
+#     try:
+#         #decode
+#         payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
+#         return payload 
+#     except JWTError:
+#         return None
+# # utilizar en el dependencies
+
+
+
+# funcion para decodificar un token
 def decode_token(token: str):
-    # lo decodigicamos para recibir los datoa de id, rol  del usuario logado, para ello usamos la libreria jwt
+    # decodificar para recibir los datos de un usuario. son el id, rol, fecha ce expiracion. Y para ello usamos el JWT
     try:
         #decode
-        payload = jwt.decode(token, SECRET_KEY, algorithms=ALGORITHM)
-        return payload 
+        payload = jwt.decode(token,  SECRET_KEY, algorithms=ALGORITHM)
+        return payload
     except JWTError:
         return None
-# utilizar en el dependencies
 
 
 
-
-
-
-
-
-
-# print(create_token({'id': 2, 'rol': 'admin' }))
 

@@ -9,7 +9,7 @@ app = FastAPI()
 
 app.include_router(product_routes.router, 
                    prefix='/products', 
-                   tags=['Products'])
+                   tags=['Products'])# ...Products'], dependencies= AQUI
 
 
 
@@ -20,3 +20,4 @@ app.include_router(user_routes.router,
 
 # DE SECURITY
 app.include_router(auth_routes.router, prefix='/auth', tags=['Auth'])
+

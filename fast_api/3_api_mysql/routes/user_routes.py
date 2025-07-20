@@ -1,6 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends
 from controllers import user_controller 
 from models.user_model import User, UserCreate
+from core.dependencies import is_admin_or_owner
 
 router = APIRouter()
 
@@ -25,12 +26,12 @@ async def update_user(id_user: int, user: User):
 
 
 #  BORRAR USUARIO POR ID
-@router.delete('/{id_user}', status_code=200)
-async def delete_user(id_user: int):
+@router.delete('/{id_user}', status_code=200)                     #user
+async def delete_user(id_user: int, admin_user=Depends(is_admin_or_owner)):
     return await  user_controller.delete_user(id_user)
 
 
-# CREA R UN USUARIO
+# CREAR UN USUARIO
 @router.post('/', status_code=200)
 async def create_user(new_user: UserCreate):
     return await user_controller.create_user(new_user)
