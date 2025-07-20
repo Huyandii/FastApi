@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from controllers import villager_controller
-from models.villager_model import Villager
+from models.villager_model import Villager, CreateVillager
 
 
 route = APIRouter()
@@ -26,5 +26,12 @@ async def update_villager(id_villager: int, villager: Villager):
 @route.delete('/{id_villager}', status_code=200)
 async def delete_villager(id_villager: int):
     return await villager_controller.delete_villager(id_villager)
+
+
+# CREAR ALDEANO
+@route.post('/', status_code=201)
+async def create_villager(villager: CreateVillager):
+    return await villager_controller.create_villager(villager)
+
 
 

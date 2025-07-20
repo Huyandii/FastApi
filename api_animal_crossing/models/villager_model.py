@@ -2,7 +2,9 @@ from pydantic import BaseModel
 from datetime import date
 
 
-# ID ALDEANO
+
+
+# ALDEANO
 class Villager(BaseModel):
     id : int
     name: str
@@ -14,6 +16,23 @@ class Villager(BaseModel):
     fruta: str
 
 
+
+
+# CREAR ALDEANO 
+class CreateVillager(BaseModel):
+    name : str
+    species : str
+    rol : bool
+    personality: str
+    birthday: date
+    hobby: str
+    fruta: str
+    
+
+
+
+
+
 #   "name": "Canela",
 #   "species": "Perro",
 #   "rol": 1,
@@ -22,3 +41,4 @@ class Villager(BaseModel):
 #   "hobby": "Deporte",
 #   "fruta": "Cereza"
 # }
+

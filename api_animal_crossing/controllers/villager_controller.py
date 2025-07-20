@@ -1,6 +1,6 @@
 from db.config import get_conexion
 from fastapi import HTTPException
-from models.villager_model import Villager
+from models.villager_model import Villager, CreateVillager
 import aiomysql
 
 
@@ -40,14 +40,6 @@ async def villagers_list():
 
 
 
-
-    # id : int
-    # name: str
-    # species: str
-    # rol: bool
-    # birthday: date
-    # hobby: str
-    # fruta: str
 # ACTUALIZAR ALDEANO
 async def update_villager(id_villager: int, villager: Villager):
     if id_villager != villager.id:
@@ -74,6 +66,7 @@ async def update_villager(id_villager: int, villager: Villager):
         conn.close()
 
 
+
 # ELIMINAR ALDEANO
 async def delete_villager(id_villager: int):
     try:
@@ -91,3 +84,39 @@ async def delete_villager(id_villager: int):
         raise HTTPException(status_code=500, detail=f'Error: {str(e)}')
     finally:
         conn.close()
+
+
+
+# CREAR ALDEANO
+async def create_villager(villager: CreateVillager):
+    try:
+        conn = await get_conexion()
+        async with conn.cursor(aiomysql.DictCursor) as cursor:
+            await cursor.execute("INSERT INTO animal_crossing.villagers (name, species, rol, personality, birthday, hobby, fruta) VALUES (%s,%s,%s,%s,%s,%s,%s)", (
+                villager.name,
+                villager.species,
+                villager.rol,
+                villager.personality,
+                villager.birthday,
+                villager.hobby,
+                villager.fruta
+            ))
+            await conn.commit()
+            # lastrowid me devuelve el id de producto que acabo de insertar. NO ES UN FUNCION ES UN PROPIEDAD DE LA CONEXION
+            nuevo_aldeano = cursor.lastrowid
+            product = await get_one_villager(nuevo_aldeano)
+            return {"msg": "Aldeano incorporado correctamente", "item": nuevo_aldeano}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f'Error: {str(e)}')
+    finally:
+        conn.close()
+
+
+
+
+    # name: str
+    # species: str
+    # rol: bool
+    # birthday: date
+    # hobby: str
+    # fruta: str
